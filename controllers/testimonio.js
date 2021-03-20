@@ -4,19 +4,6 @@ const validator = require('validator');
 var Testimonio = require('../models/testimonio');
 
 const controller = {
-    datosCurso: (req, res) => {
-        return res.status(200).send({
-            curso: 'Master en frameworks JS',
-            alumno: 'Lautaro Ceballos'
-        });
-    },
-
-    test: (req, res) => {
-        return res.status(200).send({
-            messaje: 'Soy la accion test de mi controllador'
-        });
-    },
-
     save: (req, res) => {
         // Recoger parametros por post
         const params = req.body;
@@ -74,6 +61,44 @@ const controller = {
         }
 
 
+    },
+
+    getTestimonio: (req, res) => {
+        // Recoger el id de la url
+        const testimonioId = req.params.id;
+
+        // Comprobar que existe
+        if(!testimonioId || testimonioId === null){
+            return res.status(404).send({
+                status: 'error',
+                messaje: 'No existe el articulo'
+            });  
+        }
+
+        // Buscar el articulo
+        Testimonio.findById(testimonioId, (err, testimonio) => {
+            if(err){
+                return res.status(500).send({
+                    status: 'error',
+                    messaje: 'Error al devolver los datos'
+                });  
+            }
+
+            if(!testimonio){
+                return res.status(404).send({
+                    status: 'error',
+                    messaje: 'No existe el articulo'
+                });  
+            }
+
+            //Devolver en JSON
+            return res.status(200).send({
+                status: 'success',
+                testimonio
+            });  
+        });
+
+        
     },
 
     getTestimonios: (req, res) => {
