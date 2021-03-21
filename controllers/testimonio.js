@@ -1,7 +1,7 @@
 'use strict';
 
 const validator = require('validator');
-var Testimonio = require('../models/testimonio');
+const Testimonio = require('../models/testimonio');
 
 const controller = {
     save: (req, res) => {
@@ -77,14 +77,7 @@ const controller = {
 
         // Buscar el articulo
         Testimonio.findById(testimonioId, (err, testimonio) => {
-            if(err){
-                return res.status(500).send({
-                    status: 'error',
-                    messaje: 'Error al devolver los datos'
-                });  
-            }
-
-            if(!testimonio){
+            if(err || !testimonio){
                 return res.status(404).send({
                     status: 'error',
                     messaje: 'No existe el articulo'
@@ -138,7 +131,7 @@ const controller = {
     },
 
     delete: (req, res) => {
-        // Recorrer el id de la url
+        // Recoger el id de la url
         const testimonioId = req.params.id;
 
         // Find and delete
@@ -153,7 +146,7 @@ const controller = {
             if(!testimonioRemoved){
                 return res.status(404).send({
                     status: 'error',
-                    messaje: 'No se ha borrado el articulo, posiblemente no exista'
+                    messaje: 'No se ha borrado el testimonio, posiblemente no exista'
                 });
             }
 

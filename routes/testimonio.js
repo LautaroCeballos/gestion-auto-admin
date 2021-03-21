@@ -1,9 +1,9 @@
 'use strict'
 
-var express = require('express');
-var TestimonioController = require('../controllers/testimonio');
+const express = require('express');
+const TestimonioController = require('../controllers/testimonio');
 
-var router = express.Router();
+const router = express.Router();
 
 //Rutas para testimonios
 router.post('/save', TestimonioController.save);

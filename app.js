@@ -9,12 +9,12 @@ const app = express();
 
 // Cargar ficheros rutas
 const testimonio_routes = require('./routes/testimonio');
+const informacion_routes = require('./routes/informacion');
 
 // Middlewares
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
-// CORS
 // Configurar cabeceras y cors
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
@@ -25,7 +25,9 @@ app.use((req, res, next) => {
 });
 
 // Añadir prefijos a rutas / Cargar
-app.use('/api', testimonio_routes);
+app.use('/comentarios', testimonio_routes);
+app.use('/informacion', informacion_routes);
+
 
 // Exportar modulo (fichero actual)
 module.exports = app;
