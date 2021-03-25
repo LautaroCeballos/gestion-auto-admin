@@ -16,7 +16,7 @@ const controller = {
             var validate_detalle = ! validator.isEmpty(params.detalle);
 
         }catch(err){
-            return res.status(200).send({
+            return res.status(500).send({
                 status: 'error',
                 message: 'Faltan datos por enviar !!'
             });
@@ -54,7 +54,7 @@ const controller = {
 
             });
         } else {
-            return res.status(200).send({
+            return res.status(500).send({
                 status: 'error',
                 message: 'Los datos no son validos'
             });
