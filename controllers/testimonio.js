@@ -110,14 +110,14 @@ const controller = {
             if(err){
                 return res.status(500).send({
                     status: 'error',
-                    messaje: 'Error al devolver los articulos'
+                    message: 'Error al devolver los articulos'
                 });
             }
 
             if(!testimonios){
                 return res.status(404).send({
                     status: 'error', 
-                    messaje: 'No hay articulos para mostrar'
+                    message: 'No hay articulos para mostrar'
                 });
             }
 
