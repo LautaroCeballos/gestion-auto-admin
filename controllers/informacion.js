@@ -26,6 +26,7 @@ const controller = {
             var validate_urlInstagram = validator.isURL(params.urlInstagram);
             var validate_urlFacebook = validator.isURL(params.urlFacebook);
 
+            //Ubicacion
             var validate_lat = validator.isDecimal(params.lat);
             var validate_lgn = validator.isDecimal(params.lgn);
             var validate_zoom = validator.isNumeric(params.zoom);
@@ -91,7 +92,104 @@ const controller = {
             });
         }
 
+        
 
+    },
+
+    update: (req, res) => {
+        //Recoger el id por url
+        const infoId = req.params.id;
+
+        //Recoger los datos que llegan por put
+        const params = req.body;
+
+        //Validar datos
+        try{
+             //Nombre
+             var validate_nombre = !validator.isEmpty(params.nombre);
+             var validate_apellido = !validator.isEmpty(params.apellido);
+ 
+             //Contacto
+             var validate_telefono = validator.isNumeric(params.telefono);
+             var validate_email = validator.isEmail(params.email);
+ 
+             //Redes
+             var validate_urlInstagram = validator.isURL(params.urlInstagram);
+             var validate_urlFacebook = validator.isURL(params.urlFacebook);
+ 
+             //Ubicacion
+             var validate_lat = validator.isDecimal(params.lat);
+             var validate_lgn = validator.isDecimal(params.lgn);
+             var validate_zoom = validator.isNumeric(params.zoom);
+        } catch(err){
+            return res.status(404).send({
+                status: 'error',
+                message: 'Faltan datos por enviar'
+            });
+        }
+
+        if (
+            validate_nombre && validate_apellido &&
+            validate_telefono && validate_email &&
+            validate_urlInstagram && validate_urlFacebook &&
+            validate_lat && validate_lgn && validate_zoom
+        ) {
+            //Find and Update
+            Informacion.findByIdAndUpdate({_id: infoId}, params, {new: true}, (err, infoUpdated) => {
+                if(err) {
+                    return res.status(500).send({
+                        status: 'error',
+                        message: 'Error al actualizar'
+                    });
+                }
+
+                if(!infoUpdated){
+                    return res.status(404).send({
+                        status: 'error',
+                        message: 'No existe el articulo'
+                    });
+                }
+                //Devolver respuesta
+                return res.status(200).send({
+                    status: 'success',
+                    infoUpdated
+                });
+            });
+            
+        } else {
+            return res.status(500).send({
+                status: 'error',
+                message: 'La validacion no es correcta'
+            });
+        }
+    },
+
+    getInfo: (req, res) => {
+        const query = Informacion.find({});
+
+        //Se limita la busqueda solo a un elemento
+        query.limit(1);
+
+        query.sort('-id').exec((err, info) =>{
+            if(err){
+                return res.status(500).send({
+                    status: 'error',
+                    message: "Error al devolver la informacion"
+                });
+            }
+
+            if(!info){
+                return res.status(404).send({
+                    status: 'error',
+                    message: 'No se encontro la informacion'
+                });
+            }
+
+            return res.status(200).send({
+                status: 'success',
+                info
+            });
+        });
     }
 };
 
