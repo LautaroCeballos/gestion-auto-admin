@@ -97,11 +97,14 @@ const controller = {
     },
 
     update: (req, res) => {
+        //id: 605c219d818ec13374f314c1
+
         //Recoger el id por url
         const infoId = req.params.id;
 
         //Recoger los datos que llegan por put
         const params = req.body;
+        console.log(params);
 
         //Validar datos
         try{
@@ -134,8 +137,29 @@ const controller = {
             validate_urlInstagram && validate_urlFacebook &&
             validate_lat && validate_lgn && validate_zoom
         ) {
+
+            const newInfo = {
+                nombre: {
+                    nombre: params.nombre,
+                    apellido: params.apellido
+                },
+                contacto: {
+                    telefono: params.telefono,
+                    email: params.email
+                },
+                redes: {
+                    urlInstagram: params.urlInstagram,
+                    urlFacebook: params.urlFacebook
+                },
+                ubicacion: {
+                    lat: params.lat,
+                    lgn: params.lgn,
+                    zoom: params.zoom
+                }
+            };
+
             //Find and Update
-            Informacion.findByIdAndUpdate({_id: infoId}, params, {new: true}, (err, infoUpdated) => {
+            Informacion.findByIdAndUpdate({_id: infoId}, newInfo, {new: true}, (err, infoUpdated) => {
                 if(err) {
                     return res.status(500).send({
                         status: 'error',
