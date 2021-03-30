@@ -10,6 +10,7 @@ const app = express();
 // Cargar ficheros rutas
 const testimonio_routes = require('./routes/testimonio');
 const informacion_routes = require('./routes/informacion');
+const imagen_routes = require('./routes/imagen');
 
 // Middlewares
 app.use(bodyParser.urlencoded({extended:true}));
@@ -27,6 +28,7 @@ app.use((req, res, next) => {
 // Añadir prefijos a rutas / Cargar
 app.use('/comentarios', testimonio_routes);
 app.use('/informacion', informacion_routes);
+app.use('/imagen', imagen_routes);
 
 
 // Exportar modulo (fichero actual)
